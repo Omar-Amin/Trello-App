@@ -16,10 +16,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
+import com.omarlet.trelloapp.model.Board;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,11 +30,17 @@ public class MainActivity extends AppCompatActivity {
     //TODO: Trello log in, currently using a test token
     private static String TOKEN = "TOKEN";
 
+    private ArrayList<Board> boards = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestInformation();
+    }
+
+    private void requestInformation() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://api.trello.com/1/members/me/boards?key=" + API_KEY + "&token=" + TOKEN, null,
@@ -42,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
-                                System.out.println(jsonObject.toString());
+                                String name = jsonObject.getString("name");
+                                String desc = jsonObject.getString("desc");
+                                String url = jsonObject.getString("url");
+
+                                boards.add(new Board(name,desc,url));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -51,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"Error retrieving info",Toast.LENGTH_LONG).show();
             }
         });
 

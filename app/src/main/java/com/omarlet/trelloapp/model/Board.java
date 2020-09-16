@@ -1,5 +1,7 @@
 package com.omarlet.trelloapp.model;
 
+import androidx.annotation.NonNull;
+
 public class Board {
 
     private String name, desc, url;
@@ -24,5 +26,11 @@ public class Board {
 
     public String getUrl() {
         return url;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Name: " + name + " \nDesc: " + desc + " \nUrl: " + url;
     }
 }
