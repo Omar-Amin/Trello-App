@@ -4,34 +4,45 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
-
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String API_KEY = "API_KEY";
+    private static final String API_KEY = "API";
     //TODO: Trello log in, currently using a test token
-    private String TOKEN = "TOKEN";
+    private static String TOKEN = "TOKEN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new UserInformation().execute();
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(Request.Method.GET, "https://api.trello.com/1/members/me/boards?key=" + API_KEY + "&token=" + TOKEN,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
     }
 
-    private class UserInformation extends AsyncTask<Void, Integer, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            HttpResponse<JsonNode> response = Unirest.get("https://api.trello.com/1/members/me/boards?key=" + API_KEY + "&token=" + TOKEN).asJson();
-            System.out.println(response.getBody().getArray().get(3).toString());
-            return null;
-        }
-    }
 }
