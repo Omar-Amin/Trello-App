@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.omarlet.trelloapp.R;
-import com.omarlet.trelloapp.activity.MainActivity;
 import com.omarlet.trelloapp.model.Board;
 import com.omarlet.trelloapp.model.BoardClick;
 

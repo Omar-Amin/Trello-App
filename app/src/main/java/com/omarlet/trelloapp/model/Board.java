@@ -2,7 +2,9 @@ package com.omarlet.trelloapp.model;
 
 import androidx.annotation.NonNull;
 
-public class Board {
+import java.io.Serializable;
+
+public class Board implements Serializable {
 
     private String name, desc, url, pictureUrl;
 

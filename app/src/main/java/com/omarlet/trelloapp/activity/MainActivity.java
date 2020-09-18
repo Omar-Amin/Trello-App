@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -15,8 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.adapter.BoardRecyclerView;
@@ -91,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements BoardClick {
 
     @Override
     public void OnBoardClick(int pos) {
-        System.out.println(pos);
+        Intent intent = new Intent(this, BoardActivity.class);
+        intent.putExtra("Board",boards.get(pos));
+        startActivity(intent);
     }
 }
