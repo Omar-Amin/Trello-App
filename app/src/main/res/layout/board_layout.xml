@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:layout_margin="5dp"
-        android:contentDescription="@string/board_picture" />
+        android:contentDescription="@string/board_picture"
+        android:background="#FF6F6F"/>
 
     <TextView
         android:id="@+id/boardName"
