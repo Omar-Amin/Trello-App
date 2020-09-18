@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.adapter.BoardRecyclerView;
 import com.omarlet.trelloapp.model.Board;
+import com.omarlet.trelloapp.model.BoardClick;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BoardClick {
 
     private static final String API_KEY = "API";
     //TODO: Trello log in, currently using a test token
@@ -83,9 +84,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBoards(){
-        boardRV.setAdapter(new BoardRecyclerView(this, boards));
+        boardRV.setAdapter(new BoardRecyclerView(this, boards,this));
         LinearLayoutManager lm = new LinearLayoutManager(this);
         boardRV.setLayoutManager(lm);
     }
 
+    @Override
+    public void OnBoardClick(int pos) {
+        System.out.println(pos);
+    }
 }
