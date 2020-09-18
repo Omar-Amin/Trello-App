@@ -1,9 +1,12 @@
 package com.omarlet.trelloapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -16,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
+import com.omarlet.trelloapp.adapter.BoardRecyclerView;
 import com.omarlet.trelloapp.model.Board;
 
 import org.json.JSONArray;
@@ -31,11 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private static String TOKEN = "TOKEN";
 
     private ArrayList<Board> boards = new ArrayList<>();
+    private RecyclerView boardRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        boardRV = findViewById(R.id.boards);
 
         requestInformation();
     }
@@ -51,15 +58,19 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
+                                JSONObject prefs = jsonObject.getJSONObject("prefs");
                                 String name = jsonObject.getString("name");
                                 String desc = jsonObject.getString("desc");
                                 String url = jsonObject.getString("url");
+                                String picture = prefs.getString("backgroundImage");
 
-                                boards.add(new Board(name,desc,url));
+                                boards.add(new Board(name,desc,url,picture));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        setupBoards();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -69,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+    }
+
+    private void setupBoards(){
+        boardRV.setAdapter(new BoardRecyclerView(this, boards));
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+        boardRV.setLayoutManager(lm);
     }
 
 }

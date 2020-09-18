@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 
 public class Board {
 
-    private String name, desc, url;
+    private String name, desc, url, pictureUrl;
 
-    public Board(String name, String desc, String url){
+    public Board(String name, String desc, String url, String pictureUrl){
         this.name = name;
         this.desc = desc;
         this.url = url;
+        this.pictureUrl = pictureUrl;
     }
 
     public String getName() {
@@ -28,9 +29,14 @@ public class Board {
         return url;
     }
 
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "Name: " + name + " \nDesc: " + desc + " \nUrl: " + url;
+        return "Name: " + name + " \nDesc: " + desc + " \nUrl: " + url + "\nPicture: " + pictureUrl;
     }
+
 }

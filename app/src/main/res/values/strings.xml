@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Trello App</string>
+    <string name="board_picture">Board picture</string>
 </resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/boardPicture"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/board_picture" />
+
+    <TextView
+        android:id="@+id/boardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/board_picture"
+        android:textSize="25sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_margin="15dp"
+        android:textColor="#fff"/>
+
+</RelativeLayout>
