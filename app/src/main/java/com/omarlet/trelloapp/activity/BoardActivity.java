@@ -2,6 +2,8 @@ package com.omarlet.trelloapp.activity;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
+import com.omarlet.trelloapp.adapter.ListRecyclerView;
 import com.omarlet.trelloapp.model.Board;
 import com.omarlet.trelloapp.model.Card;
 import com.omarlet.trelloapp.model.List;
@@ -22,21 +25,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private HashMap<String,List> lists = new HashMap<>();
+    private HashMap<String,List> listsHm = new HashMap<>();
+    private ArrayList<List> lists = new ArrayList<>();
+    private RecyclerView listRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
+        listRV = findViewById(R.id.boardContent);
+        LinearLayoutManager lm = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        listRV.setLayoutManager(lm);
+
         getCards();
     }
 
+    // GET request: Retrieves all cards from the selected board
     private void getCards() {
         Board board = (Board) getIntent().getSerializableExtra("Board");
 
@@ -56,18 +67,25 @@ public class BoardActivity extends AppCompatActivity {
                                 String date = jsonObject.getString("dateLastActivity");
                                 String name = jsonObject.getString("name");
 
-                                List list = lists.get(listId);
+                                List list = listsHm.get(listId);
                                 if(list == null){
                                     list = new List();
-                                    lists.put(listId,list);
+                                    listsHm.put(listId,list);
                                 }
 
                                 Card card = new Card(listId,date,name);
-                                Objects.requireNonNull(lists.get(listId)).addCard(card);
+                                Objects.requireNonNull(listsHm.get(listId)).addCard(card);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        for (HashMap.Entry<String, List> obj : listsHm.entrySet()) {
+                            List value = obj.getValue();
+                            lists.add(value);
+                        }
+
+                        setupLists();
 
                     }
                 }, new Response.ErrorListener() {
@@ -78,6 +96,11 @@ public class BoardActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+    }
+
+    private void setupLists(){
+        listRV.setAdapter(new ListRecyclerView(this, lists));
+        System.out.println(lists.size());
     }
 
 }

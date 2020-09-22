@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements BoardClick {
         setContentView(R.layout.activity_main);
 
         boardRV = findViewById(R.id.boards);
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+        boardRV.setLayoutManager(lm);
 
         requestInformation();
     }
@@ -83,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements BoardClick {
 
     private void setupBoards(){
         boardRV.setAdapter(new BoardRecyclerView(this, boards,this));
-        LinearLayoutManager lm = new LinearLayoutManager(this);
-        boardRV.setLayoutManager(lm);
     }
 
     @Override
