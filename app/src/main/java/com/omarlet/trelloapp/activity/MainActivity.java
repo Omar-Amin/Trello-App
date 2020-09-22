@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BoardClick {
 
-    private static final String API_KEY = "API";
+    static final String API_KEY = "API";
     //TODO: Trello log in, currently using a test token
-    private static String TOKEN = "TOKEN";
+    static String TOKEN = "TOKEN";
 
     private ArrayList<Board> boards = new ArrayList<>();
     private RecyclerView boardRV;
@@ -60,9 +60,10 @@ public class MainActivity extends AppCompatActivity implements BoardClick {
                                 String name = jsonObject.getString("name");
                                 String desc = jsonObject.getString("desc");
                                 String url = jsonObject.getString("url");
-                                String picture = prefs.getString("backgroundImage");
+                                String id = jsonObject.getString("id");
 
-                                boards.add(new Board(name,desc,url,picture));
+                                String picture = prefs.getString("backgroundImage");
+                                boards.add(new Board(name,desc,id,picture));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

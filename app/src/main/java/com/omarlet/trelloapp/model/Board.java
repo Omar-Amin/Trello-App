@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 public class Board implements Serializable {
 
-    private String name, desc, url, pictureUrl;
+    private String name, desc, id, pictureUrl;
 
-    public Board(String name, String desc, String url, String pictureUrl){
+    public Board(String name, String desc, String id, String pictureUrl){
         this.name = name;
         this.desc = desc;
-        this.url = url;
+        this.id = id;
         this.pictureUrl = pictureUrl;
     }
 
@@ -27,8 +27,8 @@ public class Board implements Serializable {
         this.desc = desc;
     }
 
-    public String getUrl() {
-        return url;
+    public String getId() {
+        return id;
     }
 
     public String getPictureUrl() {
@@ -38,7 +38,7 @@ public class Board implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "Name: " + name + " \nDesc: " + desc + " \nUrl: " + url + "\nPicture: " + pictureUrl;
+        return "Name: " + name + " \nDesc: " + desc + " \nUrl: " + id + "\nPicture: " + pictureUrl;
     }
 
 }
