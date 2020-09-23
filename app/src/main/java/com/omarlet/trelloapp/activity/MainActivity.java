@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements BoardClick {
                                 JSONObject prefs = jsonObject.getJSONObject("prefs");
                                 String name = jsonObject.getString("name");
                                 String desc = jsonObject.getString("desc");
-                                String url = jsonObject.getString("url");
                                 String id = jsonObject.getString("id");
 
                                 String picture = prefs.getString("backgroundImage");

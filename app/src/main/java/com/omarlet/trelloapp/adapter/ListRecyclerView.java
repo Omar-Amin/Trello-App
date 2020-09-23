@@ -36,7 +36,7 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         // TODO: Change the title so it matches the list
-        String tempName = lists.get(0).getCards().get(0).getIdList();
+        String tempName = lists.get(position).getName();
         holder.listTitle.setText(tempName);
 
         RecyclerView rc = holder.listContent;

@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.adapter.ListRecyclerView;
@@ -51,7 +52,7 @@ public class BoardActivity extends AppCompatActivity {
     private void getCards() {
         Board board = (Board) getIntent().getSerializableExtra("Board");
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        final RequestQueue queue = Volley.newRequestQueue(this);
 
         assert board != null;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://api.trello.com/1/boards/" + board.getId() + "/cards?key=" + MainActivity.API_KEY + "&token=" + MainActivity.TOKEN, null,
@@ -71,6 +72,7 @@ public class BoardActivity extends AppCompatActivity {
                                 if(list == null){
                                     list = new List();
                                     listsHm.put(listId,list);
+                                    queue.add(getListInfo(listId));
                                 }
 
                                 Card card = new Card(listId,date,name);
@@ -85,8 +87,6 @@ public class BoardActivity extends AppCompatActivity {
                             lists.add(value);
                         }
 
-                        setupLists();
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -98,9 +98,29 @@ public class BoardActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+    // retrieves information about the list and sets the name of the list
+    private JsonObjectRequest getListInfo(final String id){
+        return new JsonObjectRequest(Request.Method.GET, "https://api.trello.com/1/lists/" + id + "?key=" + MainActivity.API_KEY + "&token=" + MainActivity.TOKEN,null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Objects.requireNonNull(listsHm.get(id)).setName(response.getString("name"));
+                            setupLists();
+                        } catch (JSONException ignored) { }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(BoardActivity.this, "Error retrieving list infor",Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
     private void setupLists(){
         listRV.setAdapter(new ListRecyclerView(this, lists));
-        System.out.println(lists.size());
     }
 
 }
