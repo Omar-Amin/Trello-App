@@ -2,4 +2,5 @@
     <string name="app_name">Trello App</string>
     <string name="board_picture">Board picture</string>
     <string name="temp">Temp</string>
+    <string name="enter_card_information">Enter card information.</string>
 </resources>

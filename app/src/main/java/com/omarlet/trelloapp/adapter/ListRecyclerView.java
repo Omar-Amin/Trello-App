@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.model.List;
+import com.omarlet.trelloapp.ui.AddCardDialog;
 
 import java.util.ArrayList;
 
@@ -30,14 +31,14 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.board_content,parent,false);
-        return new ListRecyclerView.ListViewHolder(view);
+        return new ListRecyclerView.ListViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         // TODO: Change the title so it matches the list
-        String tempName = lists.get(position).getName();
-        holder.listTitle.setText(tempName);
+        String name = lists.get(position).getName();
+        holder.listTitle.setText(name);
 
         RecyclerView rc = holder.listContent;
         LinearLayoutManager lm = new LinearLayoutManager(context);
@@ -56,11 +57,18 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
         RecyclerView listContent;
         Button addCard;
 
-        public ListViewHolder(@NonNull View itemView) {
+        public ListViewHolder(@NonNull View itemView, final Context context) {
             super(itemView);
             listTitle = itemView.findViewById(R.id.listTitle);
             listContent = itemView.findViewById(R.id.listContent);
             addCard = itemView.findViewById(R.id.addCard);
+
+            addCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AddCardDialog(context).show();
+                }
+            });
         }
 
     }
