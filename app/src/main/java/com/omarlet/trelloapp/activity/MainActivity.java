@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BoardClick {
 
-    static final String API_KEY = "API";
+    public static final String API_KEY = "API";
     //TODO: Trello log in, currently using a test token
-    static String TOKEN = "TOKEN";
+    public static String TOKEN = "TOKEN";
 
     private ArrayList<Board> boards = new ArrayList<>();
     private RecyclerView boardRV;

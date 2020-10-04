@@ -6,8 +6,10 @@ public class List {
 
     private ArrayList<Card> cards;
     private String name;
+    private String id;
 
-    public List(){
+    public List(String id){
+        this.id = id;
         cards = new ArrayList<>();
     }
 
@@ -25,5 +27,9 @@ public class List {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId(){
+        return id;
     }
 }

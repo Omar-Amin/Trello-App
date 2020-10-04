@@ -1,6 +1,7 @@
 package com.omarlet.trelloapp.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.trelloapp.R;
+import com.omarlet.trelloapp.model.CardAdded;
 import com.omarlet.trelloapp.model.List;
 import com.omarlet.trelloapp.ui.AddCardDialog;
 
@@ -21,17 +23,19 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
 
     private Context context;
     private ArrayList<List> lists;
+    private CardAdded cardAdded;
 
-    public ListRecyclerView(Context context, ArrayList<List> lists){
+    public ListRecyclerView(Context context, ArrayList<List> lists, CardAdded cardAdded){
         this.context = context;
         this.lists = lists;
+        this.cardAdded = cardAdded;
     }
 
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.board_content,parent,false);
-        return new ListRecyclerView.ListViewHolder(view, context);
+        return new ListRecyclerView.ListViewHolder(view, context, lists, cardAdded);
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
         RecyclerView listContent;
         Button addCard;
 
-        public ListViewHolder(@NonNull View itemView, final Context context) {
+        public ListViewHolder(@NonNull View itemView, final Context context, final ArrayList<List> lists, final CardAdded cardAdded) {
             super(itemView);
             listTitle = itemView.findViewById(R.id.listTitle);
             listContent = itemView.findViewById(R.id.listContent);
@@ -66,7 +70,14 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
             addCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AddCardDialog(context).show();
+                    final AddCardDialog dialog = new AddCardDialog(context,lists.get(getAdapterPosition()));
+                    dialog.show();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            cardAdded.refresh(dialog.getCard(),getAdapterPosition());
+                        }
+                    });
                 }
             });
         }

@@ -20,6 +20,7 @@ import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.adapter.ListRecyclerView;
 import com.omarlet.trelloapp.model.Board;
 import com.omarlet.trelloapp.model.Card;
+import com.omarlet.trelloapp.model.CardAdded;
 import com.omarlet.trelloapp.model.List;
 
 import org.json.JSONArray;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class BoardActivity extends AppCompatActivity {
+public class BoardActivity extends AppCompatActivity implements CardAdded {
 
     private HashMap<String,List> listsHm = new HashMap<>();
     private ArrayList<List> lists = new ArrayList<>();
@@ -70,7 +71,7 @@ public class BoardActivity extends AppCompatActivity {
 
                                 List list = listsHm.get(listId);
                                 if(list == null){
-                                    list = new List();
+                                    list = new List(listId);
                                     listsHm.put(listId,list);
                                     queue.add(getListInfo(listId));
                                 }
@@ -120,7 +121,12 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void setupLists(){
-        listRV.setAdapter(new ListRecyclerView(this, lists));
+        listRV.setAdapter(new ListRecyclerView(this, lists,this));
     }
 
+    @Override
+    public void refresh(Card card, int pos) {
+        lists.get(pos).addCard(card);
+        setupLists();
+    }
 }
