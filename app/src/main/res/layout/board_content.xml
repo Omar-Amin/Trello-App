@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="270dp" android:layout_height="wrap_content"
-    android:layout_margin="20dp" android:background="#F3F4FA">
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/listTitle"
@@ -11,24 +10,36 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="5dp"
         android:textColor="#000"
         android:textSize="20sp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listContent"
-        android:layout_below="@id/listTitle"
-        android:layout_width="250dp"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/addCard"
+    <RelativeLayout
         android:layout_width="wrap_content"
+        android:layout_below="@id/listTitle"
         android:layout_height="wrap_content"
-        android:layout_below="@id/listContent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/temp"/>
+        android:layout_margin="20dp"
+        android:background="#F3F4FA">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listContent"
+            android:layout_below="@id/addCard"
+            android:layout_width="250dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/addCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/temp"/>
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

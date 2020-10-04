@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.omarlet.trelloapp.R;
 import com.omarlet.trelloapp.activity.MainActivity;
@@ -44,10 +43,8 @@ public class AddCardDialog extends Dialog {
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Add post request to the card and update the list
                 final String content = cardContent.getText().toString();
                 if (!content.isEmpty()){
-                    //Post to trello
                     JSONObject newCard = new JSONObject();
 
                     try {
@@ -71,7 +68,7 @@ public class AddCardDialog extends Dialog {
 
                         }
                     }));
-                }else {
+                } else {
                     dismiss();
                 }
             }

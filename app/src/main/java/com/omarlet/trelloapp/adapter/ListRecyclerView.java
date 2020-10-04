@@ -67,6 +67,7 @@ public class ListRecyclerView extends RecyclerView.Adapter<ListRecyclerView.List
             listContent = itemView.findViewById(R.id.listContent);
             addCard = itemView.findViewById(R.id.addCard);
 
+            // starting dialog, if succeeded it will post a new card and update the list
             addCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
